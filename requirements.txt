@@ -1,0 +1,11 @@
+python-dotenv==1.0.1
+google-generativeai
+streamlit==1.30.0
+pillow
+pandas
+numpy
+yfinance
+plotly
+alpha_vantage
+httpx
+streamlit-option-menu

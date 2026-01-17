@@ -18,7 +18,84 @@ from streamlit_option_menu import option_menu
 load_dotenv()
 
 # Page config
-st.set_page_config(page_title="MarketPulse", page_icon="💸", layout="wide")
+st.set_page_config(
+    page_title="MarketPulse", 
+    page_icon="💸", 
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# Simple, clean CSS
+st.markdown("""
+<style>
+    /* Clean white background */
+    .stApp {
+        background-color: #ffffff;
+    }
+    
+    /* Sidebar */
+    [data-testid="stSidebar"] {
+        background-color: #f8f9fa;
+    }
+    
+    /* Main container */
+    .main .block-container {
+        padding-top: 2rem;
+        max-width: 1200px;
+    }
+    
+    /* All text black */
+    h1, h2, h3, h4, h5, h6, p, span, div, li, label {
+        color: #000000 !important;
+    }
+    
+    /* Buttons */
+    .stButton > button {
+        background-color: #4CAF50;
+        color: white !important;
+        border: none;
+        border-radius: 8px;
+        padding: 0.6rem 1.5rem;
+        font-weight: 500;
+        transition: background-color 0.3s;
+    }
+    
+    .stButton > button:hover {
+        background-color: #45a049;
+    }
+    
+    /* Input fields */
+    .stTextInput > div > div > input {
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        color: #000000 !important;
+    }
+    
+    /* Text area */
+    .stTextArea textarea {
+        color: #000000 !important;
+    }
+    
+    /* Chat messages */
+    .stChatMessage {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 1rem;
+        margin: 0.5rem 0;
+    }
+    
+    .stChatMessage p {
+        color: #000000 !important;
+    }
+    
+    /* Markdown text */
+    .stMarkdown {
+        color: #000000 !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# Simple logo display
 st.image("logo.png", width=100)
 
 # Initialize API keys
@@ -67,54 +144,48 @@ safety_settings = [
 # Main navigation
 with st.sidebar:
     selected = option_menu(
-        menu_title="Finance",
-        options=["MarketPulse", "Stock Dashboard", "ChatBot", "VisionBot"],
-        icons=["house", "graph-up", "robot", "eye"],
+        menu_title=None,
+        options=["Home", "Stock Dashboard", "AI ChatBot", "Chart Analysis"],
+        icons=["house", "graph-up", "chat", "image"],
         default_index=0,
         orientation="vertical",
     )
+    
+    st.markdown("---")
+    if st.session_state.watchlist:
+        st.info(f"📊 Tracking {len(st.session_state.watchlist)} stocks")
 # Welcome Section
-if selected == "MarketPulse":
-    st.title("MarketPulse")
-    st.subheader("Your Professional Market Intelligence Platform")
+if selected == "Home":
+    st.title("💸 Welcome to MarketPulse")
+    st.markdown("#### Your simple and powerful market intelligence platform")
+    st.markdown("---")
     
-    # Overview Section
-    st.markdown("""
-    Access real-time market data, AI-powered analysis, and advanced visualization tools 
-    in one comprehensive platform.
-    """)
-    
-    # Main Features in Three Columns
+    # Main Features
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        st.markdown("### Market Dashboard")
-        st.markdown("""
-        Everything you need for market analysis:
-        - Real-time market data
-        - Custom watchlists
-        - Technical indicators
-        - Financial statements
+        st.markdown("### 📊 Stock Dashboard")
+        st.write("""
+        - Track multiple stocks
+        - Real-time price data
         - Latest market news
+        - Custom watchlists
         """)
         
-            
     with col2:
-        st.markdown("### Market Intelligence AI")
-        st.markdown("""
-        Your personal market analyst:
-        - Market insights
-        - Company analysis
-        - Strategy validation
-        - Risk assessment
-        - Trend analysis
+        st.markdown("### 🤖 AI ChatBot")
+        st.write("""
+        - Ask market questions
+        - Get instant answers
+        - Investment insights
+        - Strategy guidance
         """)
         
-            
     with col3:
-        st.markdown("### Technical Analysis")
-        st.markdown("""
-        Advanced chart analysis:
+        st.markdown("### 📸 Chart Analysis")
+        st.write("""
+        - Upload chart images
+        - AI-powered analysis
         - Pattern recognition
         - Technical indicators
         - Trend analysis
@@ -158,63 +229,18 @@ if selected == "MarketPulse":
         - Visual market intelligence
         """)
     
-    # Quick Start Section
-    st.markdown("### Getting Started")
-    with st.expander("Platform Guide"):
-        st.markdown("""
-        **Market Dashboard:**
-        - Add securities to your watchlist
-        - Access fundamental data
-        - Monitor real-time market movements
-        
-        **AI Analysis:**
-        - Query market conditions
-        - Validate investment hypotheses
-        - Get real-time market insights
-        
-        **Technical Analysis:**
-        - Upload charts for analysis
-        - Identify patterns and trends
-        - Get professional interpretations
-        """)
+    # How to use
+    st.markdown("### 🚀 How to Get Started")
+    st.info("""
+    **Step 1:** Go to Stock Dashboard to add stocks to your watchlist
     
-    # Market Insights Section
-    st.markdown("### Professional Tools")
-    with st.expander("Available Features"):
-        st.markdown("""
-        **Analysis Tools:**
-        - Real-time market data
-        - Technical indicators
-        - Financial metrics
-        - News integration
-        
-        **Risk Management:**
-        - Portfolio analysis
-        - Market risk assessment
-        - Performance tracking
-        
-        **Market Intelligence:**
-        - AI-driven insights
-        - Pattern recognition
-        - Trend analysis
-        """)
+    **Step 2:** Use AI ChatBot to ask questions about markets and investments
     
-    # Support Section
-    st.markdown("### Support")
-    with st.expander("Help Center"):
-        st.markdown("""
-        **Need assistance?**
-        - Verify your market data feed
-        - Check security identifiers
-        - Refresh for real-time updates
-        - Contact support for technical issues
-        """)
-        
-    # Disclaimer at the bottom
-    st.markdown("""
-    ---
-    *Market data delayed by 15 minutes unless specified. Analysis tools are for informational purposes only.*
+    **Step 3:** Upload charts to Chart Analysis for technical insights
     """)
+    
+    st.markdown("---")
+    st.caption("💡 Market data is for informational purposes. Always do your own research before investing.")
 
 # Stock Dashboard Section
 if selected == "Stock Dashboard":
@@ -254,72 +280,105 @@ if selected == "Stock Dashboard":
             stock_data = get_stock_data(symbol)
             
             if stock_data:
-                cols = watchlist_container.columns([1, 1, 1, 1, 1, 1, 1])
-                cols[0].write(symbol)
-                cols[1].write(f"${stock_data['Last Price']:.2f}")
-                cols[2].write(f"${stock_data['Open']:.2f}")
-                cols[3].write(f"${stock_data['High']:.2f}")
-                cols[4].write(f"${stock_data['Low']:.2f}")
-                cols[5].write(f"{stock_data['Volume']:,.0f}")
+                change = stock_data['Last Price'] - stock_data['Open']
+                change_pct = (change / stock_data['Open']) * 100 if stock_data['Open'] != 0 else 0
                 
-                if cols[6].button("Remove", key=f"remove_{symbol}"):
-                    st.session_state.watchlist.remove(symbol)
-                    st.rerun()
+                col1, col2, col3, col4 = st.columns([2, 2, 2, 1])
+                
+                with col1:
+                    st.markdown(f"### {symbol}")
+                    st.markdown(f"**${stock_data['Last Price']:.2f}**")
+                
+                with col2:
+                    color = "🟢" if change >= 0 else "🔴"
+                    st.write("")
+                    st.write(f"{color} {change:+.2f} ({change_pct:+.2f}%)")
+                
+                with col3:
+                    st.write(f"**Open:** ${stock_data['Open']:.2f}")
+                    st.write(f"**High:** ${stock_data['High']:.2f}")
+                    st.write(f"**Low:** ${stock_data['Low']:.2f}")
+                
+                with col4:
+                    st.write("")
+                    if st.button("Remove", key=f"remove_{symbol}"):
+                        st.session_state.watchlist.remove(symbol)
+                        st.rerun()
+                
+                st.markdown("---")
+    else:
+        st.info("📊 No stocks in your watchlist. Add some above to get started!")
     
-    st.link_button("🔗 Open Full Stock Dashboard", "https://stocks-dashboard-404.streamlit.app/")
+    st.markdown("---")
+    st.link_button("🔗 Full Dashboard", "https://stocks-dashboard-404.streamlit.app/", use_container_width=True)
 
     
 # ChatBot Section
-elif selected == "ChatBot":
-    st.title("Chat with MarketPulse™")
-    user_prompt = st.chat_input("Ask DocBot...")
+elif selected == "AI ChatBot":
+    st.title("🤖 AI ChatBot")
+    st.markdown("Ask me anything about stocks and markets")
+    st.markdown("---")
+    
+    # Display chat history
+    if "chat_session" in st.session_state and st.session_state.chat_session.history:
+        for message in st.session_state.chat_session.history:
+            role = "user" if message.role == "user" else "assistant"
+            with st.chat_message(role):
+                st.markdown(message.parts[0].text)
+    
+    # Chat input
+    user_prompt = st.chat_input("Type your question here...")
+    
     if user_prompt:
-        st.chat_message("user").markdown(user_prompt)
-        response = st.session_state.chat_session.send_message(user_prompt, safety_settings=safety_settings)
-        st.chat_message("assistant").markdown(response.text)
+        # Display user message
+        with st.chat_message("user"):
+            st.markdown(user_prompt)
+        
+        # Get AI response
+        with st.chat_message("assistant"):
+            with st.spinner("Thinking..."):
+                response = st.session_state.chat_session.send_message(user_prompt, safety_settings=safety_settings)
+                st.markdown(response.text)
 
 # VisionBot Section
-elif selected == "VisionBot":
-    st.header("👁 Visionbot™")
-    st.write("")
-
-    image_prompt = st.text_input("Interact with the Image", placeholder="Prompt", label_visibility="visible")
-    uploaded_file = st.file_uploader("Choose an Image", accept_multiple_files=False, type=["png", "jpg", "jpeg", "img", "webp"])
+elif selected == "Chart Analysis":
+    st.title("📸 Chart Analysis")
+    st.markdown("Upload charts for AI-powered technical analysis")
+    st.markdown("---")
+    
+    uploaded_file = st.file_uploader(
+        "Upload a chart image", 
+        type=["png", "jpg", "jpeg", "webp"],
+        help="Upload a stock chart or technical analysis image"
+    )
+    
+    image_prompt = st.text_area(
+        "What would you like to know about this chart?", 
+        placeholder="E.g., Analyze this pattern, identify support levels, what's the trend...",
+        height=100
+    )
 
     if uploaded_file is not None:
+        st.subheader("📊 Your Chart")
         st.image(Image.open(uploaded_file), use_column_width=True)
-        st.markdown("""
-            <style>
-            img {
-                border-radius: 10px;
-            }
-            </style>
-        """, unsafe_allow_html=True)
 
-    if st.button("GET RESPONSE", use_container_width=True):
-        # Update model name to gemini-1.5-flash
-        model = gen_ai.GenerativeModel("gemini-1.5-flash")
-        
+    st.markdown("---")
+    
+    if st.button("🔍 Analyze Chart", use_container_width=True):
         if uploaded_file is not None:
-            if image_prompt != "":
-                image = Image.open(uploaded_file)
-                
-                # Simplified content creation
-                response = model.generate_content(
-                    [
-                        image_prompt,
-                        image
-                    ],
-                    safety_settings=safety_settings
-                )
-                
-                st.write("")
-                st.write(":blue[Response]")
-                st.write("")
-                st.markdown(response.text)
+            if image_prompt:
+                with st.spinner("🤖 Analyzing your chart..."):
+                    model = gen_ai.GenerativeModel("gemini-1.5-flash")
+                    image = Image.open(uploaded_file)
+                    
+                    response = model.generate_content(
+                        [image_prompt, image],
+                        safety_settings=safety_settings
+                    )
+                    
+                    st.subheader("📝 Analysis Results")
+                    st.write(response.text)
             else:
-                st.write("")
-                st.header(":red[Please Provide a prompt]")
+                st.error("❌ Please describe what you want to know about the chart")
         else:
-            st.write("")
-            st.header(":red[Please Provide an image]")
+            st.error("❌ Please upload a chart image first")
